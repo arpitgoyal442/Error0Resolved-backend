@@ -1,10 +1,14 @@
 import express from "express";
 const router=express.Router();
 
+import {getDoubts,getAllNotifications,getProfile,declineRequest,acceptRequest} from "../controller/student.controller.js"
 
 
-router.get("/student/doubts",getDoubts);
-router.get("/student/notifications",getAllNotifications);
-router.post("/student/acceptdoubt",acceptDoubt);
-router.post("/student/declinedoubt",declineDoubt);
-router.get("/student/profile",getProfile);
+
+router.get("/doubts",getDoubts);
+router.get("/notifications",getAllNotifications);
+router.post("/acceptrequest",acceptRequest);
+router.post("/declinerequest",declineRequest);
+router.get("/profile",getProfile);
+
+export default router

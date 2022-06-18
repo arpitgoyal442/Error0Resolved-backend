@@ -1,8 +1,12 @@
 import express from "express";
 const router = express.Router();
 
+import{getDoubts,makeRequest,getProfile,getNotifications} from "../controller/debugger.controller.js"
 
-router.get("/debugger/doubts",getDoubts);
-router.post("/debugger/request",makeRequest);
-router.get("/debugger/profile/:debuggerId",getProfile);
-router.get("/debugger/notifications",getNotifications);
+
+router.get("/doubts",getDoubts);
+router.post("/request",makeRequest);
+router.get("/profile/:debuggerId",getProfile);
+router.get("/notifications",getNotifications);
+
+export default router;

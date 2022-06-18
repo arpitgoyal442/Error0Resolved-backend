@@ -1,10 +1,19 @@
+import uploadToCloudinary from "../cloudinary.js";
 
-
-const addNewDoubt=(req,res)=>{
+const addNewDoubt=async (req,res)=>{
 
     console.log(req.files);
     console.log(req.body);
-    res.send("Upload success");
+
+    for(let i=0;i<req.files.length;i++)
+    {
+         let result= await uploadToCloudinary(req.files[0].path);
+         console.log(result.url);
+    }
+
+
+    res.send("Successfull");
+
 
 }
 

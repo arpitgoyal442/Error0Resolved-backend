@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
 import doubtroutes from "./routes/doubt.route.js"
+import debuggerroutes from "./routes/debugger.route.js"
+import studentroutes from "./routes/student.route.js"
 
 
 import cors from "cors"
@@ -38,7 +40,10 @@ app.get("/", (req, res) => {
     res.send("Welcome To Error:Resolved");
 })
 
-app.use("/",doubtroutes);
+app.use("/doubt/",doubtroutes);
+app.use("/debugger/",debuggerroutes);
+app.use("/student/",studentroutes);
+
 
 
 

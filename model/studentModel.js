@@ -6,12 +6,12 @@ let student_schema = new mongoose.Schema({
     email:String,
     name:String,
     imageUrl:String,
-    Rating:{
+    rating:{
         type:Number,
         default:4
     },
 
-    Notifications:[
+    notifications:[
         {
             type:String
         }

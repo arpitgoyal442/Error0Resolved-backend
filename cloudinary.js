@@ -15,7 +15,7 @@ async function uploadToCloudinary(localFilePath) {
   var filePathOnCloudinary =
     "main" + "/" + localFilePath;
 
-  return cloudinary.uploader.upload(localFilePath, { public_id: filePathOnCloudinary }).then((result) => {
+  return cloudinary.uploader.upload(localFilePath, { public_id: filePathOnCloudinary,resource_type:'auto' }).then((result) => {
 
     // remove that file from local storage now --As we dont need that
     fs.unlinkSync(localFilePath);

@@ -2,30 +2,33 @@ import mongoose from "mongoose"
 
 let doubt_schema = new mongoose.Schema({
 
-    
-   topic:String,
-   shortDescription:String,
-   longDescription:String,
-   Price:Number,
-   status:{
-       type:String,
-       default:"active"
-   },
 
-   studentId:String,
+    topic: String,
+    shortDescription: String,
+    longDescription: String,
+    price: Number,
+    files: [
+        {
 
-   debuggerId:{
-       type:String,
-       default:null
-   },
+            type: String
 
-   postedTime:String
+        }
+    ],
+    status: {
+        type: String,
+        default: "active"
+    },
 
+    studentId: String,
 
+    debuggerId: {
+        type: String,
+        default: null
+    },
 
-
+    postedTime: String
 
 });
 
 
-export default mongoose.model("student",doubt_schema);
+export default mongoose.model("doubt", doubt_schema);

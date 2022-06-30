@@ -17,11 +17,44 @@ let debugger_schema = new mongoose.Schema({
         }
     ],
 
-    notifications:Array,
+    notifications:[
+        {
+
+            sender:Number,         //  0 For Admin and 1 for  student
+            studentId: {          // null if notification is from admin
+
+                type:String,
+                default:null
+
+            },
+            doubtId:{
+
+                type:String,
+                default:null
+
+            },
+
+            isRequestAccepted:{
+
+                type:Boolean,
+                default:false
+
+            },
+
+            message:{                    // in case of debugger we bydefault know that he/she is requesting -- this field if for admin mainly
+
+                type:String,
+                default:null
+
+
+            }
+        }
+
+    ],
 
     requestedDoubts:[
         {
-            doubtId:String
+            type:String
         }
 
     ],

@@ -13,7 +13,29 @@ let student_schema = new mongoose.Schema({
 
     notifications:[
         {
-            type:String
+            sender:Number,         //  0 For Admin and 2 for  debugger
+            debuggerId: {          // null if notification is from admin
+
+                type:String,
+                default:null
+
+            },
+            doubtId:{
+
+                type:String,
+                default:null
+
+            },
+
+            message:{                    // in case of debugger we bydefault know that he/she is requesting -- this field if for admin mainly
+
+                type:String,
+                default:null
+
+
+            }
+
+
         }
     ],
 

@@ -26,6 +26,12 @@ let doubt_schema = new mongoose.Schema({
         default: null
     },
 
+    incomingRequests:[{
+
+        type:String   // Id of debugger making request
+
+    }],
+
     postedTime: String
 
 });

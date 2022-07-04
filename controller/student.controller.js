@@ -6,7 +6,7 @@ const getDoubts=  (req,res)=>{
 
     let studentId=req.params.studentId;
 
-     doubtSchema.find({studentId:studentId},function(err,data){
+     doubtSchema.find({studentId:studentId} ,function(err,data){
 
         if(err)
         res.status(404).send(err);
@@ -33,7 +33,7 @@ const getAllNotifications= async (req,res)=>{
 }
 
 
-const acceptRequest=(req,res)=>{
+const acceptRequest=async (req,res)=>{
 
     let debuggerId=req.body.debuggerId;
     let doubtId=req.body.doubtId;
@@ -41,12 +41,17 @@ const acceptRequest=(req,res)=>{
 
     // Mark that Doubt Inactive and set debugger id 
 
-      doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId},function(err,data){
+     await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId},function(err,data){
 
         if(err)
         res.status(404).send(err);
 
+        
+
     })
+
+
+    
 
 
 
@@ -71,8 +76,10 @@ const acceptRequest=(req,res)=>{
         else{
 
             debuggerSchama.findByIdAndUpdate(debuggerId,{notifications:[...data.notifications , newnotification]} , function(err,data){
-                if(err)
-                res.status(404).send(err);
+                if(err){
+                 return res.status(404).send(err);
+
+                }
 
                 else res.status(200).send("Successfully Accepted")
             })

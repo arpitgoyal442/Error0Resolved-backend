@@ -10,11 +10,15 @@ import upload from "../multer.config.js"
 
 router.get("/all",getAllDoubts);   
 router.post("/add",upload.array('myfiles',5),addNewDoubt);
-router.get("/view/:doubtId",viewDoubt);
-router.delete("/delete/:doubtId",deleteDoubt);
-router.put("/edit/:doubtId",editDoubt);
+router.get("/:doubtId",viewDoubt);
+router.delete("/:doubtId",deleteDoubt);
+router.put("/:doubtId",editDoubt);
 
 
 export default router;
 
+
+
+// Chattting -- socket.io
+// filter route
 

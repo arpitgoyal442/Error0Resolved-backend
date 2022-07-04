@@ -47,11 +47,11 @@ const addNewDoubt = async (req, res) => {
     let doubt=new doubtSchema(req.body);
      await doubt.save(function(err,data){
         if(err)
-        res.status(404).send("Error : "+err);
+        return  res.status(404).send("Error : "+err);
 
         else {
             console.log(data);
-            res.send("doubt Added successfully")
+            return res.send("doubt Added successfully")
         }
         
      });
@@ -80,9 +80,9 @@ const viewDoubt = (req,res) => {
     doubtSchema.findOne({_id:doubtId},function(err,data){
         
         if(err)
-        res.status(404).send(err);
+        return  res.status(404).send(err);
 
-        else res.send(data);
+        else return res.send(data);
     });
     
 
@@ -95,9 +95,9 @@ const deleteDoubt = (req,res) => {
     doubtSchema.deleteOne({_id:doubtId},function(err,data){
 
         if(err)
-        res.status(404).send(err);
+         return res.status(404).send(err);
 
-        else res.status(200).send("Deleted Successfully");
+        else  return res.status(200).send("Deleted Successfully");
 
         
 
@@ -109,9 +109,9 @@ const editDoubt = (req,res) => {
     doubtSchema.findByIdAndUpdate( req.params.doubtId,req.body , function(err,data){
 
         if(err)
-        res.status(404).send(err);
+         return res.status(404).send(err);
 
-        else res.status(200).send("Updated Successfully");
+        else return  res.status(200).send("Updated Successfully");
 
 
     })

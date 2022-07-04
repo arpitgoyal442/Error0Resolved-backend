@@ -40,7 +40,7 @@ const makeRequest= async (req,res)=>{
 
     
 
-      console.log("checkpont2");
+     
 
     
 

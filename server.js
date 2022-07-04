@@ -5,6 +5,9 @@ import mongoose from "mongoose";
 import doubtroutes from "./routes/doubt.route.js"
 import debuggerroutes from "./routes/debugger.route.js"
 import studentroutes from "./routes/student.route.js"
+import authRoutes from "./routes/auth.route.js"
+
+
 
 
 import cors from "cors"
@@ -43,12 +46,14 @@ app.get("/", (req, res) => {
 app.use("/doubt/",doubtroutes);
 app.use("/debugger/",debuggerroutes);
 app.use("/student/",studentroutes);
+app.use("/",authRoutes);
 
 
 
 
 
-app.listen('9000', () => {
+ var server=app.listen('9000', () => {
 
     console.log("App Started on port 9000");
 })
+

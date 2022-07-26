@@ -7,17 +7,56 @@ import debuggerroutes from "./routes/debugger.route.js"
 import studentroutes from "./routes/student.route.js"
 import authRoutes from "./routes/auth.route.js"
 
+import { createServer } from "http";
+import { Server } from "socket.io";
+
 
 
 
 import cors from "cors"
 const app = express();
+app.use(cors());
+
+//  Socket.io ***START
+
+const server=createServer(app);
+const io= new Server(server,{
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST","PUT","DELETE"]
+    }
+  });
+
+io.on("connection",(socket)=>{
+
+    console.log("Socket received is : " +socket.id);
+
+    socket.on('chat',(payload)=>{
+
+        // payload is just name of the data , we can name anything
+
+        console.log(payload);
+
+        io.emit("chat",payload);
+        
+    })
+
+})
+
+server.listen(5000,()=>{
+
+    console.log("server listening on port 5000...")
+})
+
+
+
+// Socket.io ***END
 
 
 // MIddlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+
 
 
 // Database Connection
@@ -52,7 +91,7 @@ app.use("/",authRoutes);
 
 
 
- var server=app.listen('9000', () => {
+ app.listen('9000', () => {
 
     console.log("App Started on port 9000");
 })

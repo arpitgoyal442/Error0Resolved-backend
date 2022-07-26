@@ -10,33 +10,18 @@ const makeRequest= async (req,res)=>{
     let debuggerId=req.params.debuggerId;
     let studentId=null;
 
-    // add request in that doubt
-     
-    //     await doubtSchema.findById(doubtId, async  (err,data)=>{
 
-    //     if(err)
-    //     res.status(404).send(err);
-
-    //     else {
-
-    //         studentId=data.studentId;
-    //           console.log(studentId);
-
-    //          await doubtSchema.findByIdAndUpdate(doubtId,{incomingRequests:[...data.incomingRequests,debuggerId]},function(err,data){
-
-    //             if(err)
-    //             res.status(404).send(err);
-    //         });
-
-    //     }
-    // });
-
-    let record= await doubtSchema.findOne({doubtId:doubtId}).exec().catch((err)=>{res.send(err)});
+    // .then((data)=>{console.log("doubt data");console.log(data)})
+    // .then((data)=>{console.log("doubt data");console.log(data)}).catch((err)=>{res.send(err)});
+   
+    let record= await doubtSchema.findOne({doubtId:doubtId}).exec().catch(err=>{ return res.status(404).send(err)});
+    console.log("records are: ");
+    console.log(record);
 
     await doubtSchema.findByIdAndUpdate(doubtId,{incomingRequests:[...record.incomingRequests,debuggerId]}).exec().catch((err)=>{res.status(404).send(err)});
 
     studentId=record.studentId;
-    console.log(record.studentId);
+    console.log( "Student Id is "+record.studentId);
 
     
 
@@ -49,25 +34,7 @@ const makeRequest= async (req,res)=>{
     let debuggerdata= await debuggerSchema.findById(debuggerId).exec();
     debuggerSchema.findByIdAndUpdate(debuggerId,{requestedDoubts:[...debuggerdata.requestedDoubts,doubtId]}).then((data)=>{console.log(data)}).catch((err)=>{console.log(err)})
 
-    //  debuggerSchema.findById(debuggerId,function(err,data){
-
-    //     if(err)
-    //     res.status(404).send(err);
-
-    //     else {
-
-    //         debuggerSchema.findByIdAndUpdate(doubtId,{requestedDoubts:[...data.requestedDoubts,doubtId]},function(err,data){
-
-    //             if(err)
-    //             res.status(404).send(err);
-
-
-
-    //         })
-    //     }
-    // })
-
-
+    
 
     // in student send a notification
     let newNotification={

@@ -8,7 +8,7 @@ const makeRequest= async (req,res)=>{
 
     let doubtId=req.body.doubtId;
     let debuggerId=req.params.debuggerId;
-    let studentId=null;
+    let studentId=req.body.studentId;
 
 
     // .then((data)=>{console.log("doubt data");console.log(data)})
@@ -20,8 +20,8 @@ const makeRequest= async (req,res)=>{
 
     await doubtSchema.findByIdAndUpdate(doubtId,{incomingRequests:[...record.incomingRequests,debuggerId]}).exec().catch((err)=>{res.status(404).send(err)});
 
-    studentId=record.studentId;
-    console.log( "Student Id is "+record.studentId);
+    // studentId=record.studentId;
+    // console.log( "Student Id is "+record.studentId);
 
     
 

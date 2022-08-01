@@ -3,10 +3,22 @@ import mongoose from "mongoose"
 let doubt_schema = new mongoose.Schema({
 
 
-    topic: String,
-    shortDescription: String,
-    longDescription: String,
-    price: Number,
+    topic:{
+        type:String,
+        required:true
+    },
+    shortDescription: {
+        type:String,
+        required:true
+    },
+    longDescription: {
+        type:String,
+        required:true
+    },
+    price: {
+        type:Number,
+        required:true
+    },
     files: [
         {
 
@@ -19,7 +31,10 @@ let doubt_schema = new mongoose.Schema({
         default: "active"
     },
 
-    studentId: String,
+    studentId: {
+        type:String,
+        required:true
+    },
 
     debuggerId: {
         type: String,
@@ -32,7 +47,10 @@ let doubt_schema = new mongoose.Schema({
 
     }],
 
-    postedTime: String
+    postedTime: {
+        type:String,
+        required:true
+    }
 
 });
 

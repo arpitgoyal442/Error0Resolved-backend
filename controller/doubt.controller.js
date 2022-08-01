@@ -1,6 +1,7 @@
 import uploadToCloudinary from "../cloudinary.js";
 import doubtSchema from "../model/doubtModel.js"
 import studentModel from "../model/studentModel.js";
+import debuggerModel from "../model/debuggerModel.js";
 
 
 
@@ -59,9 +60,9 @@ const addNewDoubt = async (req, res) => {
 }
 
 
-const getAllDoubts = (req, res) => {
+const getAllDoubts = async (req, res) => {
 
-
+     console.log("Request in coming")
 
     const param = req.query;
     const filters = {};
@@ -70,9 +71,6 @@ const getAllDoubts = (req, res) => {
     console.log(param)
 
     let debuggerId = param.debuggerId;
-
-
-
 
     if (param.active == 1)
         filters.status = "active";
@@ -98,9 +96,7 @@ const getAllDoubts = (req, res) => {
     console.log(filters);
 
 
-
-
-    if (param.requested == 0) {
+    if (param.requested == 0||param.requested==-1) {
         doubtSchema.find(filters, function (err, data) {
 
             if (err)
@@ -111,9 +107,22 @@ const getAllDoubts = (req, res) => {
 
     }
 
-    else {
+    else  if(param.requested==1){
 
+        let requested_doubts= await debuggerModel.findById(debuggerId).then((data)=>{
+            console.log("data is");
+            console.log(data);
+
+           doubtSchema.find({_id: data.requestedDoubts,...filters},function(err,data){
+
+             return res.send(data);
+
+           }).sort(sortOrder)
+
+        }).catch(()=>{}); 
     }
+
+
 
 
 
@@ -143,9 +152,16 @@ const deleteDoubt = (req, res) => {
     doubtSchema.deleteOne({ _id: doubtId }, function (err, data) {
 
         if (err)
+        {
+            console.log(err);
             return res.status(404).send(err);
+        }
 
-        else return res.status(200).send("Deleted Successfully");
+        else {
+
+            // console.log()
+            return  res.status(200).send("Deleted Successfully");
+        }
 
 
 

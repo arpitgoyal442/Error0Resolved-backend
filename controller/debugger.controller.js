@@ -10,22 +10,15 @@ const makeRequest= async (req,res)=>{
     let debuggerId=req.params.debuggerId;
     let studentId=req.body.studentId;
 
-
-    // .then((data)=>{console.log("doubt data");console.log(data)})
-    // .then((data)=>{console.log("doubt data");console.log(data)}).catch((err)=>{res.send(err)});
    
-    let record= await doubtSchema.findOne({doubtId:doubtId}).exec().catch(err=>{ return res.status(404).send(err)});
-    console.log("records are: ");
-    console.log(record);
 
-    await doubtSchema.findByIdAndUpdate(doubtId,{incomingRequests:[...record.incomingRequests,debuggerId]}).exec().catch((err)=>{res.status(404).send(err)});
 
-    // studentId=record.studentId;
-    // console.log( "Student Id is "+record.studentId);
-
+   
+   
+    let record= await doubtSchema.findById(doubtId).exec().catch(err=>{ return res.status(404).send(err)});
     
 
-     
+    await doubtSchema.findByIdAndUpdate(doubtId,{incomingRequests:[...record.incomingRequests,debuggerId]}).exec().catch((err)=>{res.status(404).send(err)});
 
     
 
@@ -40,9 +33,12 @@ const makeRequest= async (req,res)=>{
     let newNotification={
 
         sender:2,
-        debuggerId:debuggerId,
-        doubtId:doubtId
+        debuggerData:debuggerdata,
+        doubtId:doubtId,
+        message: debuggerdata.name+" is requesting to solve Your "+ record.topic+" doubt"
     }
+
+   
 
       studentSchema.findById(studentId,function(err,data){
 

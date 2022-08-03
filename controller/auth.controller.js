@@ -25,12 +25,12 @@ const Login=(req,res)=>{
                         if(err)
                         return res.status(404).send(err);
 
-                        else{ console.log(data); return res.status(200).send(data._id)}
+                        else{ console.log(data); return res.status(200).send(data)}
                     } )
                 }
 
                 // Dont insert as user is already there just return _id
-                else return res.send(data._id);
+                else return res.send(data);
                 
 
             } ).catch((err)=>{
@@ -55,12 +55,12 @@ const Login=(req,res)=>{
                 if(err)
                 return res.status(404).send(err);
 
-                else{ console.log(data); return res.status(200).send(data._id)}
+                else{ console.log(data); return res.status(200).send(data)}
             } )
 
         }
 
-        else   return res.send(data._id);
+        else   return res.send(data);
                 
 
             

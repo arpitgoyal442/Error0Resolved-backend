@@ -3,8 +3,14 @@ import mongoose from "mongoose"
 let student_schema = new mongoose.Schema({
 
     
-    email:String,
-    name:String,
+    email:{
+        required:true,
+        type:String
+    },
+    name:{
+        required:true,
+        type:String
+    },
     imageUrl:String,
     rating:{
         type:Number,
@@ -14,9 +20,9 @@ let student_schema = new mongoose.Schema({
     notifications:[
         {
             sender:Number,         //  0 For Admin and 2 for  debugger
-            debuggerId: {          // null if notification is from admin
+            debuggerData: {          // null if notification is from admin
 
-                type:String,
+                type:Object,
                 default:null
 
             },

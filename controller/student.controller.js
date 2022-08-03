@@ -41,15 +41,10 @@ const acceptRequest=async (req,res)=>{
 
     // Mark that Doubt Inactive and set debugger id 
 
-     await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId},function(err,data){
+     await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId}).catch((err)=>{
 
-        if(err)
-        res.status(404).send(err);
-
-        
-
-    })
-
+        return res.status(404).send(err);
+     })
 
     
 
@@ -63,6 +58,7 @@ const acceptRequest=async (req,res)=>{
         studentId:studentId,
         doubtId:doubtId,
         isRequestAccepted:true,
+       
     
 
 
@@ -86,7 +82,11 @@ const acceptRequest=async (req,res)=>{
 
 
         }
-    })
+    });
+
+
+
+    
 
   
 

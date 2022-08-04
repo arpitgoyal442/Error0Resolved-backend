@@ -26,9 +26,9 @@ let student_schema = new mongoose.Schema({
                 default:null
 
             },
-            doubtId:{
+            doubtData:{
 
-                type:String,
+                type:Object,
                 default:null
 
             },

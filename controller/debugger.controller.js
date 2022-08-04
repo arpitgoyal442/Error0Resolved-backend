@@ -34,7 +34,8 @@ const makeRequest= async (req,res)=>{
 
         sender:2,
         debuggerData:debuggerdata,
-        doubtId:doubtId,
+
+        doubtData:record,
         message: debuggerdata.name+" is requesting to solve Your "+ record.topic+" doubt"
     }
 

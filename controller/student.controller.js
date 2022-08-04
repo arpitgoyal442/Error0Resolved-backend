@@ -16,11 +16,6 @@ const getDoubts=  (req,res)=>{
 
     });
 
-
-
-   
-
-
 }
 
 const getAllNotifications= async (req,res)=>{
@@ -37,15 +32,27 @@ const acceptRequest=async (req,res)=>{
 
     let debuggerId=req.body.debuggerId;
     let doubtId=req.body.doubtId;
-    let studentId=req.params.studentId;
+    let studentId=req.body.studentId;
+    let studentName=req.body.studentName;
+
+
+    console.log("On Accept");
+
+    console.log(req.body);
+
+   
 
     // Mark that Doubt Inactive and set debugger id 
 
-     await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId}).catch((err)=>{
+    //
+
+     let doubt= await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId}).catch((err)=>{
 
         return res.status(404).send(err);
      })
 
+
+    //
     
 
 
@@ -58,6 +65,7 @@ const acceptRequest=async (req,res)=>{
         studentId:studentId,
         doubtId:doubtId,
         isRequestAccepted:true,
+        message:"Congratulations 🎉🎉 "+studentName + " has accepted your request for "+doubt.topic +" doubt"
        
     
 
@@ -77,21 +85,18 @@ const acceptRequest=async (req,res)=>{
 
                 }
 
-                else res.status(200).send("Successfully Accepted")
+                else{
+
+                    console.log(data);
+
+                 res.status(200).send("Successfully Accepted")
+                }
             })
 
 
         }
     });
 
-
-
-    
-
-  
-
-
-    
 
 
     
@@ -112,8 +117,9 @@ const declineRequest=()=>{
 const getProfile= async (req,res)=>{
 
     let studentId=req.params.studentId;
+    console.log("request is coming")
 
-    await studentSchema.findById(studentId).exec().then((data)=>{res.status(200).send(data)}).catch((err)=>{res.status(404).send(err)})
+    await studentSchema.findById(studentId).exec().then((data)=>{ console.log(data);res.status(200).send(data)}).catch((err)=>{res.status(404).send(err)})
 
 
 }

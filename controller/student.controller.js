@@ -44,16 +44,12 @@ const acceptRequest=async (req,res)=>{
 
     // Mark that Doubt Inactive and set debugger id 
 
-    //
+
 
      let doubt= await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId}).catch((err)=>{
 
         return res.status(404).send(err);
      })
-
-
-    //
-    
 
 
 
@@ -67,35 +63,14 @@ const acceptRequest=async (req,res)=>{
         isRequestAccepted:true,
         message:"Congratulations 🎉🎉 "+studentName + " has accepted your request for "+doubt.topic +" doubt"
        
-    
-
-
     }
 
-    debuggerSchama.findById(debuggerId,function(err,data){
+    debuggerSchama.findByIdAndUpdate(debuggerId,{ $push:{notifications:newnotification} })
+    .then((data)=>{ console.log(data); return res.status(200).send("Added Successfully") })
+    .catch((err)=>{return res.send(err)});
 
-        if(err)
-        res.status(404).send(err);
+  
 
-        else{
-
-            debuggerSchama.findByIdAndUpdate(debuggerId,{notifications:[...data.notifications , newnotification]} , function(err,data){
-                if(err){
-                 return res.status(404).send(err);
-
-                }
-
-                else{
-
-                    console.log(data);
-
-                 res.status(200).send("Successfully Accepted")
-                }
-            })
-
-
-        }
-    });
 
 
 

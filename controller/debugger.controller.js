@@ -10,24 +10,14 @@ const makeRequest= async (req,res)=>{
     let debuggerId=req.params.debuggerId;
     let studentId=req.body.studentId;
 
-   
-
-
-   
-   
-    let record= await doubtSchema.findById(doubtId).exec().catch(err=>{ return res.status(404).send(err)});
-    
-
-    await doubtSchema.findByIdAndUpdate(doubtId,{incomingRequests:[...record.incomingRequests,debuggerId]}).exec().catch((err)=>{res.status(404).send(err)});
+    // Adding debugger id to incoming req. in doubt
+    let record=await doubtSchema.findByIdAndUpdate(doubtId,{$push:{incomingRequests:debuggerId}}).catch((err)=>{return res.send(err)});
 
     
+    // adding doubtid to requested doubt in debugger
+    let debuggerdata=await debuggerSchema.findByIdAndUpdate(debuggerId,{$push:{requestedDoubts:doubtId}}).catch((err)=>{return res.send(err)});
 
-    // add request for that debugger
-
-    let debuggerdata= await debuggerSchema.findById(debuggerId).exec();
-    debuggerSchema.findByIdAndUpdate(debuggerId,{requestedDoubts:[...debuggerdata.requestedDoubts,doubtId]}).then((data)=>{console.log(data)}).catch((err)=>{console.log(err)})
-
-    
+   
 
     // in student send a notification
     let newNotification={
@@ -39,24 +29,13 @@ const makeRequest= async (req,res)=>{
         message: debuggerdata.name+" is requesting to solve Your "+ record.topic+" doubt"
     }
 
-   
 
-      studentSchema.findById(studentId,function(err,data){
+         // Push Notification in Student
+         studentSchema.findByIdAndUpdate(studentId,{$push:{notifications:newNotification}}).then((data)=>{
 
-        if(err)
-        res.status(404).send(err);
+            return res.status(200).send(data);
 
-        else{
-
-            studentSchema.findByIdAndUpdate(studentId,{notifications:[...data.notifications,newNotification]},function(err,data){
-
-                if(err)
-                res.status(404).send(err);
-
-                else res.status(200).send("Request Made Successfully");
-            })
-        }
-    })
+         }).catch((err)=>{return res.send(err)});
 
     
 

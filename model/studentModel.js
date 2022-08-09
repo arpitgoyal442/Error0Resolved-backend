@@ -45,12 +45,7 @@ let student_schema = new mongoose.Schema({
         }
     ],
 
-    chats:[
-        {
-            debuggerId:String,
-            doubtId:String
-        }
-    ]
+   
 
 
 

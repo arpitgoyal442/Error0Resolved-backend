@@ -67,21 +67,7 @@ let debugger_schema = new mongoose.Schema({
         }
     ],
 
-    chats:[
-        {
-            student:String,
-            doubtId:String,
-            conversation:[
-                {
-                    isSender:Boolean, // corresponding to debugger -- is he sender or receiver
-                    message:String,
-                    time:String
-                
-
-                }
-            ]
-        }
-    ]
+   
 
 
 

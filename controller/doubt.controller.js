@@ -242,4 +242,43 @@ const filterPrice = (req, res) => {
 
 // Filters **END**
 
-export { addNewDoubt, getAllDoubts, viewDoubt, editDoubt, deleteDoubt, statusFilterDoubts, filterPrice };
+
+const addMessage=(req,res)=>{
+
+    
+    let doubtId=req.params.doubtId;
+   
+
+    console.log("Body is")
+    console.log(req.body);
+    
+
+    
+
+    doubtSchema.findByIdAndUpdate(doubtId,{$push:{chats:req.body}}).then((data)=>{
+
+        console.log(data);
+        return res.status(200).send(data);
+
+    }).catch((err)=>{ res.status(404).send(err)})
+
+}
+
+const getAllChats=(req,res)=>{
+
+    doubtSchema.findById(req.params.doubtId)
+    .then((data)=>{
+        console.log("Chats are");
+        console.log(data.chats);
+        res.status(200).send(data);
+    })
+    .catch((err)=>{
+        console.log("error in chats fetching"+err);
+        return res.status(404).send(err);
+    })
+
+}
+
+
+
+export { addNewDoubt, getAllDoubts, viewDoubt, editDoubt, deleteDoubt, statusFilterDoubts, filterPrice,addMessage,getAllChats };

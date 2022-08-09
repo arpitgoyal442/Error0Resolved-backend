@@ -17,13 +17,35 @@ const makeRequest= async (req,res)=>{
     // adding doubtid to requested doubt in debugger
     let debuggerdata=await debuggerSchema.findByIdAndUpdate(debuggerId,{$push:{requestedDoubts:doubtId}}).catch((err)=>{return res.send(err)});
 
+
+    console.log("Debugger data");
+    console.log(debuggerdata);
+
+    let debuggerFiltered={};               // with Notification to student we need to send some info of debugger as well for that purpose this obj is created
+    for (const key in debuggerdata) {
+
+            if(key=='_id' || key=='name'||key=='imageUrl'||key=='Rating'||key=='skills')
+            debuggerFiltered[key]=debuggerdata[key];
+
+            else if(key=='doubtsSolved')
+            debuggerFiltered.doubtSolved=debuggerdata.doubtsSolved.length;
+
+           
+            
+
+    }
+
+    
+
    
+       
+
 
     // in student send a notification
     let newNotification={
 
         sender:2,
-        debuggerData:debuggerdata,
+        debuggerData:debuggerFiltered,
 
         doubtData:record,
         message: debuggerdata.name+" is requesting to solve Your "+ record.topic+" doubt"
@@ -36,6 +58,9 @@ const makeRequest= async (req,res)=>{
             return res.status(200).send(data);
 
          }).catch((err)=>{return res.send(err)});
+
+
+        
 
     
 

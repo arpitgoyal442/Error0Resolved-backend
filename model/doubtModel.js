@@ -36,9 +36,27 @@ let doubt_schema = new mongoose.Schema({
         required:true
     },
 
+    studentName:{
+
+        type:String,
+        required:true
+
+    },
+
+    
+
     debuggerId: {
         type: String,
         default: null
+    },
+
+    debuggerName:{
+
+        type:String,
+        default:null
+
+    
+       
     },
 
     incomingRequests:[{
@@ -46,6 +64,26 @@ let doubt_schema = new mongoose.Schema({
         type:String   // Id of debugger making request
 
     }],
+
+
+
+
+    chats:[
+
+        {
+            senderName:String,
+            senderId:String,
+            receiverName:String,
+            receiverId:String,
+            message:String,
+            sentTime:String,
+            sentDate:String
+        }
+
+    ],
+
+
+
 
     postedTime: {
         type:String,

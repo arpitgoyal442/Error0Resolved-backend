@@ -31,6 +31,7 @@ const getAllNotifications= async (req,res)=>{
 const acceptRequest=async (req,res)=>{
 
     let debuggerId=req.body.debuggerId;
+    let debuggerName=req.body.debuggerName;
     let doubtId=req.body.doubtId;
     let studentId=req.body.studentId;
     let studentName=req.body.studentName;
@@ -44,14 +45,10 @@ const acceptRequest=async (req,res)=>{
 
     // Mark that Doubt Inactive and set debugger id 
 
-
-
-     let doubt= await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId}).catch((err)=>{
+     let doubt= await   doubtSchema.findByIdAndUpdate(doubtId,{status:'inactive',debuggerId:debuggerId,debuggerName:debuggerName}).catch((err)=>{
 
         return res.status(404).send(err);
      })
-
-
 
     // send Notification to debugger about request accepted  and remove request made by debugger
 
@@ -65,9 +62,22 @@ const acceptRequest=async (req,res)=>{
        
     }
 
-    debuggerSchama.findByIdAndUpdate(debuggerId,{ $push:{notifications:newnotification} })
-    .then((data)=>{ console.log(data); return res.status(200).send("Added Successfully") })
+     await debuggerSchama.findByIdAndUpdate(debuggerId,{ $push:{notifications:newnotification} })
+    .then((data)=>{ console.log(data);  })
     .catch((err)=>{return res.send(err)});
+
+
+    // Remove the notification from student
+
+    studentSchema.findByIdAndUpdate(studentId,{$pull:{notifications:{ debuggerData:{_id:debuggerId} , doubtData:{_id:doubtId} }}})
+    .then((data)=>{
+
+        console.log("data After pull ");
+        console.log(data);
+        return res.status(200).send("Added Successfully");
+    })
+    .catch((err)=>{return res.send(err)});
+
 
   
 

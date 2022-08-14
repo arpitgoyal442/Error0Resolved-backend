@@ -47,6 +47,15 @@ io.on("connection",(socket)=>{
     }
   });
 
+
+  socket.on("delete-doubt",(doubt)=>{
+
+    console.log("Delete-request coming"+doubt._id)
+
+    io.emit("deleted-doubt",doubt);
+
+  })
+
     
 
 

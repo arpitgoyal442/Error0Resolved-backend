@@ -6,6 +6,9 @@ import debuggerSchema from "../model/debuggerModel.js"
 
 const makeRequest= async (req,res)=>{
 
+
+    try{
+
     let doubtId=req.body.doubtId;
     let debuggerId=req.params.debuggerId;
     let studentId=req.body.studentId;
@@ -62,7 +65,11 @@ const makeRequest= async (req,res)=>{
 
         
 
-    
+        }catch(error){
+
+            res.status(404).send(error)
+
+        }
 
     
 

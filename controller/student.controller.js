@@ -102,9 +102,9 @@ const declineRequest=()=>{
 const getProfile= async (req,res)=>{
 
     let studentId=req.params.studentId;
-    console.log("request is coming")
+    // console.log("request is coming")
 
-    await studentSchema.findById(studentId).exec().then((data)=>{ console.log(data);res.status(200).send(data)}).catch((err)=>{res.status(404).send(err)})
+    await studentSchema.findById(studentId).exec().then((data)=>{ res.status(200).send(data)}).catch((err)=>{res.status(404).send(err)})
 
 
 }

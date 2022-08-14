@@ -2,6 +2,9 @@ import uploadToCloudinary from "../cloudinary.js";
 import doubtSchema from "../model/doubtModel.js"
 import studentModel from "../model/studentModel.js";
 import debuggerModel from "../model/debuggerModel.js";
+import io from "../server.js";
+
+
 
 
 
@@ -93,7 +96,7 @@ const getAllDoubts = async (req, res) => {
 
 
     console.log("Filters in case of " + param.solvingNow + " ");
-    console.log(filters);
+    // console.log(filters);
 
 
     if (param.requested == 0||param.requested==-1) {
@@ -111,7 +114,7 @@ const getAllDoubts = async (req, res) => {
 
         let requested_doubts= await debuggerModel.findById(debuggerId).then((data)=>{
             console.log("data is");
-            console.log(data);
+            // console.log(data);
 
            doubtSchema.find({_id: data.requestedDoubts,...filters},function(err,data){
 
@@ -175,8 +178,8 @@ const editDoubt = async(req, res) => {
 
     let doubtId=req.params.doubtId;
 
-    console.log("Body is :");
-    console.log(req.body);
+    // console.log("Body is :");
+    // console.log(req.body);
 
     console.log("Files are: ");
     console.log(req.files);
@@ -247,17 +250,7 @@ const addMessage=(req,res)=>{
 
     
     let doubtId=req.params.doubtId;
-   
-
-    console.log("Body is")
-    console.log(req.body);
-    
-
-    
-
     doubtSchema.findByIdAndUpdate(doubtId,{$push:{chats:req.body}}).then((data)=>{
-
-        console.log(data);
         return res.status(200).send(data);
 
     }).catch((err)=>{ res.status(404).send(err)})
@@ -268,8 +261,8 @@ const getAllChats=(req,res)=>{
 
     doubtSchema.findById(req.params.doubtId)
     .then((data)=>{
-        console.log("Chats are");
-        console.log(data.chats);
+        // console.log("Chats are");
+        // console.log(data.chats);
         res.status(200).send(data);
     })
     .catch((err)=>{

@@ -16,7 +16,7 @@ import { Server } from "socket.io";
 import cors from "cors"
 const app = express();
 app.use(cors());
-
+ 
 //  Socket.io ***START
 
 const server=createServer(app);
@@ -27,26 +27,32 @@ const io= new Server(server,{
     }
   });
 
+
+  global.onlineUsers=new Map();
+
+  
 io.on("connection",(socket)=>{
 
-    console.log("Socket received is : " +socket.id);
+  
 
-    socket.on('chat',(payload)=>{
+  global.chatSocket = socket;
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+  });
 
-        // payload is just name of the data , we can name anything
+  socket.on("send-msg", (to,msg) => {
+    const sendUserSocket = onlineUsers.get(to);
+    if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("msg-recieve", msg);
+    }
+  });
 
-        console.log(payload);
+    
 
-        io.emit("chat",payload);
-        
-    })
 
 })
 
-server.listen(5000,()=>{
 
-    console.log("server listening on port 5000...")
-})
 
 
 
@@ -91,8 +97,15 @@ app.use("/",authRoutes);
 
 
 
- app.listen('9000', () => {
+//  app.listen('9000', () => {
 
-    console.log("App Started on port 9000");
+//     console.log("App Started on port 9000");
+// })
+
+server.listen(9000,()=>{
+
+    console.log("server listening on port 9000...")
 })
+
+export default io;
 

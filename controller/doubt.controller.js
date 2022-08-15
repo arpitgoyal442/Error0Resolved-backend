@@ -56,7 +56,7 @@ const addNewDoubt = async (req, res) => {
 
         else {
             console.log(data);
-            return res.send("doubt Added successfully")
+            return res.send(data)
         }
 
     });

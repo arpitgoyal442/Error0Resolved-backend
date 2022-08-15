@@ -56,6 +56,16 @@ io.on("connection",(socket)=>{
 
   })
 
+
+  socket.on("add-doubt",(data)=>{
+
+    console.log("Added Doubt is : ");
+    console.log(data)
+
+    io.emit("added-doubt",data);
+
+  })
+
     
 
 

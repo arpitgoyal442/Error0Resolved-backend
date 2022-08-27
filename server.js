@@ -30,46 +30,124 @@ const io= new Server(server,{
 
   global.onlineUsers=new Map();
 
+  io.on("connection",(socket)=>{
+
+    socket.on("join-room", (userData) => {
+      const { roomID, socketId } = userData;
+      socket.join(roomID);
+      console.log(socket.rooms)
+      socket.broadcast.to(roomID).emit("new-user-connect", userData);
+      socket.on("disconnect", () => {
+        console.log("Disconnect ", socketId)
+        socket.broadcast.to(roomID).emit("user-disconnected", socketId);
+      });
+    });
   
-io.on("connection",(socket)=>{
-
+    global.chatSocket = socket;
+    socket.on("add-user", (socketId) => {
+      onlineUsers.set(socketId, socket.id);
+    });
   
+    socket.on("send-msg", (to,msg) => {
+      const sendUserSocket = onlineUsers.get(to);
+      if (sendUserSocket) {
+        socket.to(sendUserSocket).emit("msg-recieve", msg);
+      }
+    });
+  
+  
+    socket.on("delete-doubt",(doubt)=>{
+  
+      console.log("Delete-request coming"+doubt._id)
+  
+      io.emit("deleted-doubt",doubt);
+  
+    })
+  
+  
+    socket.on("add-doubt",(data)=>{
+  
+      console.log("Added Doubt is : ");
+      console.log(data)
+  
+      io.emit("added-doubt",data);
+  
+    })
 
-  global.chatSocket = socket;
-  socket.on("add-user", (userId) => {
-    onlineUsers.set(userId, socket.id);
-  });
 
-  socket.on("send-msg", (to,msg) => {
-    const sendUserSocket = onlineUsers.get(to);
-    if (sendUserSocket) {
-      socket.to(sendUserSocket).emit("msg-recieve", msg);
-    }
-  });
+    socket.on("request-doubt",(data)=>{
+
+      console.log("Requst-doubt data ");
+      // console.log(data.doubtData);
+      const sendUserSocket = onlineUsers.get(data.doubtData.studentId);
+      
+     
+      if (sendUserSocket) {
+        socket.to(sendUserSocket).emit("debugger-requesting", data);
+      }
+
+    })
 
 
-  socket.on("delete-doubt",(doubt)=>{
+    socket.on("request-accept",(data)=>{
 
-    console.log("Delete-request coming"+doubt._id)
+      const sendUserSocket = onlineUsers.get(data.debuggerId);
+      
+     
+      if (sendUserSocket) {
+        socket.to(sendUserSocket).emit("student-accept-request", {message:data.message , doubtId:data.doubtId});
+      }
 
-    io.emit("deleted-doubt",doubt);
 
+
+    })
+  
+      
+  
+  
   })
 
+  
+// io.on("connection",(socket)=>{
 
-  socket.on("add-doubt",(data)=>{
+  
 
-    console.log("Added Doubt is : ");
-    console.log(data)
+//   global.chatSocket = socket;
+  
+//   socket.on("add-user", (userId) => {
+//     onlineUsers.set(userId, socket.id);
+//   });
 
-    io.emit("added-doubt",data);
+//   socket.on("send-msg", (to,msg) => {
+//     const sendUserSocket = onlineUsers.get(to);
+//     if (sendUserSocket) {
+//       socket.to(sendUserSocket).emit("msg-recieve", msg);
+//     }
+//   });
 
-  })
+
+//   socket.on("delete-doubt",(doubt)=>{
+
+//     console.log("Delete-request coming"+doubt._id)
+
+//     io.emit("deleted-doubt",doubt);
+
+//   })
+
+
+//   socket.on("add-doubt",(data)=>{
+
+//     console.log("Added Doubt is : ");
+//     console.log(data)
+
+//     io.emit("added-doubt",data);
+
+//   })
 
     
 
 
-})
+// })
 
 
 

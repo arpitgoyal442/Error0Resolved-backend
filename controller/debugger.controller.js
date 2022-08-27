@@ -38,10 +38,6 @@ const makeRequest= async (req,res)=>{
 
     }
 
-    
-
-   
-       
 
 
     // in student send a notification
@@ -58,7 +54,11 @@ const makeRequest= async (req,res)=>{
          // Push Notification in Student
          studentSchema.findByIdAndUpdate(studentId,{$push:{notifications:newNotification}}).then((data)=>{
 
-            return res.status(200).send(data);
+            console.log("Data After Making Request");
+            console.log(newNotification);
+            return res.status(200).send(newNotification);
+
+           
 
          }).catch((err)=>{return res.send(err)});
 

@@ -45,11 +45,14 @@ const io= new Server(server,{
   
     global.chatSocket = socket;
     socket.on("add-user", (socketId) => {
+
+      // console.log("User Added "+socketId+" : "+socket.id)
       onlineUsers.set(socketId, socket.id);
     });
   
     socket.on("send-msg", (to,msg) => {
       const sendUserSocket = onlineUsers.get(to);
+      // console.log(sendUserSocket+" "+msg);
       if (sendUserSocket) {
         socket.to(sendUserSocket).emit("msg-recieve", msg);
       }
@@ -106,52 +109,6 @@ const io= new Server(server,{
   
   
   })
-
-  
-// io.on("connection",(socket)=>{
-
-  
-
-//   global.chatSocket = socket;
-  
-//   socket.on("add-user", (userId) => {
-//     onlineUsers.set(userId, socket.id);
-//   });
-
-//   socket.on("send-msg", (to,msg) => {
-//     const sendUserSocket = onlineUsers.get(to);
-//     if (sendUserSocket) {
-//       socket.to(sendUserSocket).emit("msg-recieve", msg);
-//     }
-//   });
-
-
-//   socket.on("delete-doubt",(doubt)=>{
-
-//     console.log("Delete-request coming"+doubt._id)
-
-//     io.emit("deleted-doubt",doubt);
-
-//   })
-
-
-//   socket.on("add-doubt",(data)=>{
-
-//     console.log("Added Doubt is : ");
-//     console.log(data)
-
-//     io.emit("added-doubt",data);
-
-//   })
-
-    
-
-
-// })
-
-
-
-
 
 // Socket.io ***END
 

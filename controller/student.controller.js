@@ -30,6 +30,9 @@ const getAllNotifications= async (req,res)=>{
 
 const acceptRequest=async (req,res)=>{
 
+
+    let notificationId=req.body.notificationId;
+    console.log("Notification id is"+notificationId);
     let debuggerId=req.body.debuggerId;
     let debuggerName=req.body.debuggerName;
     let doubtId=req.body.doubtId;
@@ -69,7 +72,8 @@ const acceptRequest=async (req,res)=>{
 
     // Remove the notification from student
 
-    studentSchema.findByIdAndUpdate(studentId,{$pull:{notifications:{ debuggerData:{_id:debuggerId} , doubtData:{_id:doubtId} }}})
+    // *** Removal of Notification from student is NOT Working 😒 *** 
+    studentSchema.findByIdAndUpdate(studentId , {$pull:{notifications :{_id:notificationId}}})
     .then((data)=>{
 
         console.log("data After pull ");

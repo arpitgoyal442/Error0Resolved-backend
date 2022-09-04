@@ -12,7 +12,7 @@ import { Server } from "socket.io";
 
 
 
-const port=  9000 ||process.env.PORT;
+const port=   process.env.PORT||9000;
 
 import cors from "cors"
 const app = express();

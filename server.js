@@ -12,6 +12,7 @@ import { Server } from "socket.io";
 
 
 
+const port=  9000||process.env.PORT;
 
 import cors from "cors"
 const app = express();
@@ -151,12 +152,9 @@ app.use("/",authRoutes);
 
 
 
-//  app.listen('9000', () => {
 
-//     console.log("App Started on port 9000");
-// })
 
-server.listen(9000,()=>{
+server.listen(port,()=>{
 
     console.log("server listening on port 9000...")
 })

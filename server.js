@@ -12,7 +12,7 @@ import { Server } from "socket.io";
 
 
 
-const port=  9000||process.env.PORT;
+const port=  9000 ||process.env.PORT;
 
 import cors from "cors"
 const app = express();
@@ -101,13 +101,7 @@ const io= new Server(server,{
       if (sendUserSocket) {
         socket.to(sendUserSocket).emit("student-accept-request", {message:data.message , doubtId:data.doubtId});
       }
-
-
-
     })
-  
-      
-  
   
   })
 
@@ -149,14 +143,9 @@ app.use("/student/",studentroutes);
 app.use("/",authRoutes);
 
 
-
-
-
-
-
 server.listen(port,()=>{
 
-    console.log("server listening on port 9000...")
+    console.log("server listening on port "+port)
 })
 
 export default io;

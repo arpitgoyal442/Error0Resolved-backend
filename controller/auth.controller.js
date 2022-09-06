@@ -1,6 +1,8 @@
 import studentModel from "../model/studentModel.js";
 import debuggerModel from "../model/debuggerModel.js";
 
+console.log("auth")
+
 const Login=(req,res)=>{
 
     const img=req.body.img;

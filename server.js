@@ -30,8 +30,8 @@ app.use(cors());
 const server=createServer(app);
 const io= new Server(server,{
     cors: {
-      // origin: "https://errorresolved.netlify.app",
-      origin:  "http://localhost:3000",
+      origin: "https://errorresolved.netlify.app",
+      // origin:  "http://localhost:3000",
       
       methods: ["GET", "POST","PUT","DELETE"]
     }

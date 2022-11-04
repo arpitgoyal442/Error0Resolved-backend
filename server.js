@@ -7,6 +7,7 @@ import debuggerroutes from "./routes/debugger.route.js"
 import studentroutes from "./routes/student.route.js"
 import authRoutes from "./routes/auth.route.js"
 
+
 import { createServer } from "http";
 import { Server } from "socket.io";
 
@@ -16,14 +17,22 @@ const port=   process.env.PORT||9000;
 
 import cors from "cors"
 const app = express();
+
+
+
+
 app.use(cors());
+
+
  
 //  Socket.io ***START
 
 const server=createServer(app);
 const io= new Server(server,{
     cors: {
-      origin: "https://errorresolved.netlify.app",
+      // origin: "https://errorresolved.netlify.app",
+      origin:  "http://localhost:3000",
+      
       methods: ["GET", "POST","PUT","DELETE"]
     }
   });
@@ -32,6 +41,8 @@ const io= new Server(server,{
   global.onlineUsers=new Map();
 
   io.on("connection",(socket)=>{
+
+    // console.log(socket.id)
 
     socket.on("join-room", (userData) => {
       const { roomID, socketId } = userData;
@@ -52,9 +63,11 @@ const io= new Server(server,{
     });
   
     socket.on("send-msg", (to,msg) => {
+      // console.log("from send-msg"+to);
       const sendUserSocket = onlineUsers.get(to);
       // console.log(sendUserSocket+" "+msg);
       if (sendUserSocket) {
+        // console.log("sending msg-receive")
         socket.to(sendUserSocket).emit("msg-recieve", msg);
       }
     });
@@ -101,6 +114,28 @@ const io= new Server(server,{
       if (sendUserSocket) {
         socket.to(sendUserSocket).emit("student-accept-request", {message:data.message , doubtId:data.doubtId});
       }
+    })
+
+
+    socket.on("peerId",(data)=>{
+
+      // console.log(data.receiverUserId);
+
+      console.log("data from screenshare:");
+      console.log(data)
+      
+      const sendUserSocket = onlineUsers.get(data.receiverUserId);
+     
+      console.log("User Socket "+sendUserSocket)
+
+
+      if (sendUserSocket) 
+        socket.to(sendUserSocket).emit("remotePeerId", {remotePeerId:data.peerId });
+      
+
+      
+
+
     })
   
   })

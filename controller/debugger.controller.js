@@ -6,6 +6,8 @@ import debuggerSchema from "../model/debuggerModel.js"
 
 const makeRequest= async (req,res)=>{
 
+    console.log(req)
+
 
     try{
 
@@ -13,18 +15,23 @@ const makeRequest= async (req,res)=>{
     let debuggerId=req.params.debuggerId;
     let studentId=req.body.studentId;
 
+    console.log(doubtId+"--"+debuggerId+"--"+studentId)
+
     // Adding debugger id to incoming req. in doubt
     let record=await doubtSchema.findByIdAndUpdate(doubtId,{$push:{incomingRequests:debuggerId}}).catch((err)=>{return res.send(err)});
+    console.log("record is --");
+    console.log(record);
 
     
     // adding doubtid to requested doubt in debugger
-    let debuggerdata=await debuggerSchema.findByIdAndUpdate(debuggerId,{$push:{requestedDoubts:doubtId}}).catch((err)=>{return res.send(err)});
+    let debuggerdata=await debuggerSchema.findByIdAndUpdate(debuggerId,{$push:{requestedDoubts:doubtId}}).catch((err)=>{ console.log("debugger data is not coming");
+        return res.send(err)});
 
 
-    console.log("Debugger data");
+    console.log("Debugger data--");
     console.log(debuggerdata);
 
-    let debuggerFiltered={};               // with Notification to student we need to send some info of debugger as well for that purpose this obj is created
+    let debuggerFiltered={};  // with Notification to student we need to send some info of debugger as well for that purpose this obj is created
     for (const key in debuggerdata) {
 
             if(key=='_id' || key=='name'||key=='imageUrl'||key=='Rating'||key=='skills')
@@ -32,13 +39,7 @@ const makeRequest= async (req,res)=>{
 
             else if(key=='doubtsSolved')
             debuggerFiltered.doubtSolved=debuggerdata.doubtsSolved.length;
-
-           
-            
-
     }
-
-
 
     // in student send a notification
     let newNotification={
@@ -50,7 +51,6 @@ const makeRequest= async (req,res)=>{
         message: debuggerdata.name+" is requesting to solve Your "+ record.topic+" doubt"
     }
 
-
          // Push Notification in Student
          studentSchema.findByIdAndUpdate(studentId,{$push:{notifications:newNotification}}).then((data)=>{
 
@@ -58,20 +58,14 @@ const makeRequest= async (req,res)=>{
             console.log(newNotification);
             return res.status(200).send(newNotification);
 
-           
-
          }).catch((err)=>{return res.send(err)});
 
-
-        
 
         }catch(error){
 
             res.status(404).send(error)
 
         }
-
-    
 
 }
 

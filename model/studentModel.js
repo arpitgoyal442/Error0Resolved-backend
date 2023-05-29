@@ -1,8 +1,6 @@
 import mongoose from "mongoose"
 
 let student_schema = new mongoose.Schema({
-
-    
     email:{
         required:true,
         type:String
@@ -16,7 +14,6 @@ let student_schema = new mongoose.Schema({
         type:Number,
         default:4
     },
-
     notifications:[
         {
             sender:Number,         //  0 For Admin and 2 for  debugger
@@ -30,26 +27,15 @@ let student_schema = new mongoose.Schema({
 
                 type:Object,
                 default:null
-
             },
 
             message:{                    // in case of debugger we bydefault know that he/she is requesting -- this field if for admin mainly
 
                 type:String,
                 default:null
-
-
             }
-
-
         }
     ],
-
-   
-
-
-
-
 });
 
 

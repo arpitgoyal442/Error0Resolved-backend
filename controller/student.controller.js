@@ -1,6 +1,7 @@
 import studentSchema from "../model/studentModel.js"
 import doubtSchema from "../model/doubtModel.js"
 import debuggerSchama from "../model/debuggerModel.js"
+import nodemailer from"nodemailer";
 
 const getDoubts=  (req,res)=>{
 
@@ -38,6 +39,8 @@ const acceptRequest=async (req,res)=>{
     let doubtId=req.body.doubtId;
     let studentId=req.body.studentId;
     let studentName=req.body.studentName;
+
+    console.log("Users email"+req.body.debuggerEmail)
 
 
     console.log("On Accept");
@@ -81,6 +84,32 @@ const acceptRequest=async (req,res)=>{
         return res.status(200).send("Added Successfully");
     })
     .catch((err)=>{return res.send(err)});
+
+    //  ****Sending mail to debugger *******
+
+    let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: 'mariano.williamson73@ethereal.email',
+            pass: 'juMmhdSeKANVbMDYVS'
+        },
+      });
+
+    
+    
+      // send mail with defined transport object
+//       let info = await transporter.sendMail({
+//         from: '"Fred Foo 👻"<arpitgoyal442@gmail.com>', // sender address
+//         to: 'arpit.05616403219@ipu.ac.in', // list of receivers
+//         subject: "Request Accepted", // Subject line
+//         text: studentName+"has accepted your request ", // plain text body
+//         html: "<b>Hello world?</b>", // html body
+//       });
+//  console.log("Mesage sent")
+//       console.log(info.messageId)
+    
 
 
   

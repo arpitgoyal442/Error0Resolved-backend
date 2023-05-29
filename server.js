@@ -8,7 +8,7 @@ import studentroutes from "./routes/student.route.js"
 import authRoutes from "./routes/auth.route.js"
 
 
-import { createServer } from "http";
+import { createServer, METHODS } from "http";
 import { Server } from "socket.io";
 
 
@@ -28,13 +28,18 @@ app.use(cors());
 //  Socket.io ***START
 
 const server=createServer(app);
+const allowesOrigins=["https://errorresolved.tech","http://localhost:3000"]
 const io= new Server(server,{
+
+
     cors: {
-      origin: "https://errorresolved.netlify.app",
-      // origin:  "http://localhost:3000",
+      // origin: "https://errorresolved.netlify.app",
+      origin: [ "http://localhost:3000","https://errorresolved.tech"],
       
       methods: ["GET", "POST","PUT","DELETE"]
     }
+
+
   });
 
 
